@@ -1181,7 +1181,7 @@ p.creditos{
             width: 100%;            
         }
         .foto-3{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-3-nueva.jpg?v2") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-3-nueva.jpg?v2") no-repeat center top;
             background-size: cover;
             display: inline-block;
             height: 300px;
@@ -1191,7 +1191,7 @@ p.creditos{
             width: 100%;
         }
         .foto-4{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-4-nueva.jpg?v2") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-4-nueva.jpg?v2") no-repeat center top;
             background-size: cover;
             display: inline-block;
             height: 280px;
@@ -1200,7 +1200,7 @@ p.creditos{
             width: 100%;
         }
         .foto-5{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-5-nueva.jpg") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-5-nueva.jpg") no-repeat center top;
             background-size: cover;
             display: inline-block;
             height: 600px;
@@ -1210,7 +1210,7 @@ p.creditos{
             width: 100%;
         }
         .foto-6{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-6-nueva.jpg") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-6-nueva.jpg") no-repeat center top;
             background-size: cover;
             display: inline-block;
             height: 600px;
@@ -1220,14 +1220,14 @@ p.creditos{
             width: 100%;
         }
         .foto-7{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-7-nueva.jpg") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-7-nueva.jpg") no-repeat center top;
             background-size: cover;
             height: 600px;
             margin-bottom: 20px;
             width: 100%;
         }
         .foto-8{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-8-nueva.jpg") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-8-nueva.jpg") no-repeat center top;
             background-size: cover;
             display: inline-block;
             height: 600px;
@@ -1237,7 +1237,7 @@ p.creditos{
             width: 100%;
         }
         .foto-9{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-9-nueva.jpg") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-9-nueva.jpg") no-repeat center top;
             background-size: cover;
             display: inline-block;
             height: 600px;
@@ -1247,7 +1247,7 @@ p.creditos{
             width: 100%;
         }
         .foto-10{
-            background: url("https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/foto-10.jpg") no-repeat center top;
+            background: url("https://nuevasnarrativasec.github.io/barbadillo/img/foto-10.jpg") no-repeat center top;
             background-size: cover;
             height: 600px;
             margin-top: 20px;
@@ -1511,7 +1511,7 @@ span.separador-ex{
 
 
     .main-gif {
-        height: 500vh;
+        height: 990vh;
     }
 
     .bg {
