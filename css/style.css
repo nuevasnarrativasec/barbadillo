@@ -1511,7 +1511,8 @@ span.separador-ex{
 
 
     .main-gif {
-        height: 2200vh;
+        /*height: 2200vh;*/
+        height: 37000px;
     }
 
     .bg {
