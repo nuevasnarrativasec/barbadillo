@@ -212,7 +212,7 @@ body{
             .bajada p{
                 color: #fff;
                 font: 18px/1.4 'actobook';
-                max-width: 420px;
+                max-width: 430px;
                 text-align: center;
                 text-shadow: 0px 2px 3px #242424;
             }
@@ -966,6 +966,7 @@ p.creditos{
     color: #fff;
     font: 16px/1.4 'actobook';
     margin: 0 auto 10px;
+    max-width: 300px;
     text-align: center;
 }
     p.creditos span{
@@ -1132,8 +1133,8 @@ p.creditos{
     }
     .box-presidente p{
         font: 16px/1.5 'Inter', sans-serif;
-        font-weight: 400;
-        margin: 50px auto 100px;
+        font-weight: 400;        
+        margin: 20px auto;
         max-width: 400px;
     }
     .box-horizontal{
@@ -1275,7 +1276,7 @@ p.creditos{
         }
             .box-ex{
                 margin: 50px auto;
-                max-width: 280px;
+                max-width: 330px;
                 vertical-align: top;
             }
                 .box-ex h5{
@@ -1936,4 +1937,14 @@ canvas{
     right: 0;
     text-transform: uppercase;
     top: 0;
+}
+
+
+/* cambio 2025 */
+span.asterisco {
+    color: #636363;
+    display: block;
+    font: 14px/1.3 'Montserrat', sans-serif;
+    font-weight: 400;
+    text-align: center;
 }
