@@ -208,7 +208,10 @@
         <span class="asterisco">*Preso por prisión preventiva</span>
 
         <div class="box-presidente">
-            <img src="https://nuevasnarrativasec.github.io/barbadillo/img/vizcarra-2025.jpg" alt="Martín Vizcarra" width="100%">           
+            <img src="https://nuevasnarrativasec.github.io/barbadillo/img/vizcarra-2025.jpg" alt="Martín Vizcarra" width="100%">         
+            <div class="box-video bov-video-vizcarra" id="video-vizcarra">
+                <video src="https://nuevasnarrativasec.github.io/videos-discurso-dina-2025/video-vizcarra.mp4" width="100%" poster="./img/cover-vizcarra.jpg" controls></video>               
+            </div>  
             <p>
                 Martín Vizcarra se ha convertido en el quinto expresidente peruano en ser recluido en el penal de Barbadillo. El 13 de agosto de 2025, el juez Jorge Chávez Tamariz dictó cinco meses de prisión preventiva en su contra tras considerar riesgo de fuga y obstrucción en el proceso judicial. 
             </p>
@@ -389,7 +392,18 @@
    
     <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/js/main.js?v141"></script>
 
-
+    <script>
+        document.addEventListener('scroll', function() {
+            var video = document.querySelector('#video-vizcarra video');
+            if (video) {
+                var rect = video.getBoundingClientRect();
+                var inView = rect.top < window.innerHeight && rect.bottom > 0;
+                if (!inView && !video.paused) {
+                    video.pause();
+                }
+            }
+        });
+    </script>
 
    
     
