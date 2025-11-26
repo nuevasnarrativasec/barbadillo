@@ -65,6 +65,12 @@
     <link rel="canonical" href="https://especiales.elcomercio.pe/?q=especiales-multimedia/barbadillo/index.html"/>
 
 	<style>
+        /* Ocultar anuncios y elementos no deseados */       
+        .tp-backdrop.tp-active,
+        .content_gpt_top_ads, 
+        .sticky-top, 
+        .nav-d__menu.active,
+        #gpt_cover,
         .content_gpt_top_ads,
         .skin-template-model0.ads_pushed,
         .skin-template-model0,
@@ -78,7 +84,7 @@
         #browsi_wrapper_3_ai_1_rc_0,
         #browsi_wrapper_4_ai_1_rc_0,
         #browsi_wrapper_5_ai_1_rc_0,
-        #browsi_wrapper_6_ai_1_rc_0,
+         #browsi_wrapper_6_ai_1_rc_0,
         #browsi_wrapper_7_ai_1_rc_0,
         #browsi_wrapper_8_ai_1_rc_0,
         #browsi_wrapper_9_ai_1_rc_0,
@@ -86,31 +92,55 @@
         .fs-sticky-footer,
         .orp-player-wrapper,
         #clever-45754-sticky-footer,
-        #clever-45754-1475206-sticky-footer-shadow,
         #elcomercio_zocalo{
-            display: none !important;
-            height: 0 !important;
+                display: none !important;
+                height: 0 !important;
         }   
-        #header-container,
         .nav-d__main-scroll.scrolled{
-            z-index: 99999999;
+            z-index: 9999;
+        }
+#header-container,
+        .nav-d__main-scroll.scrolled{
+            /*z-index: 99999999;*/
         }
         #nav-wm-container{
             position: relative;
-            z-index: 99999999;
+            /*z-index: 99999999;*/
         }
-        .skin-template-model0 {
+.skin-template-model0 {
 		    top: 100px !important;
 		    z-index: -1 !important;
 		}
-		.skin-template-model0 {
-		    top: 100px !important;
-		    z-index: -1 !important;
-		}
-		.content_gpt_top_ads{
-            display: none !important;
-            height: 0 !important;
-        }  
+        body{
+            overflow-y: scroll !important;
+        }
+        .content-layout-container {
+            background-color: transparent !important;
+        }
+        .tp-modal-open{
+            overflow: auto !important;
+        }
+
+.iframe-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            border: 0;
+            height: 100%;
+            width: 100%;
+        }
+        
+        @media only screen and (max-width: 640px){
+            
+            .iframe-container{
+                height: 100vh;
+            }
+            
+        }
 	</style>
 
 </head>
@@ -254,13 +284,14 @@
         <h4>
             <span>Martín Vizcarra: </span> el último recluso
         </h4>
-        <!--<span class="asterisco">*Preso por prisión preventiva</span>-->
+        
 
         <div class="box-presidente">
             <img src="https://nuevasnarrativasec.github.io/barbadillo/img/vizcarra-2025.jpg" alt="Martín Vizcarra" width="100%">         
             <div class="box-video bov-video-vizcarra" id="video-vizcarra">
                 <video src="https://nuevasnarrativasec.github.io/videos-discurso-dina-2025/video-vizcarra.mp4" width="100%" poster="https://nuevasnarrativasec.github.io/barbadillo/img/cover-vizcarra.jpg" controls></video>               
             </div>  
+			<span class="asterisco">Última actualización: Agosto, 2025</span>
             <p>
                 Martín Vizcarra fue condenado a 14 años de prisión. El Poder Judicial lo encontró culpable de recibir S/2.3 millones en coimas de empresas constructoras para los proyectos Lomas de Ilo y Hospital de Moquegua. El juicio contra el también exgobernador de Moquegua inició en octubre del 2024.
             </p>         
