@@ -61,9 +61,6 @@
     <meta property="og:site_name" content="EL COMERCIO" />
     <link rel="canonical" href="https://especiales.elcomercio.pe/?q=especiales-multimedia/barbadillo/index.html"/>
 
-    <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/js/libgif.js?v3"></script>
-    <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/js/rubbable.js?v3"></script>
-
    <!-- <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>-->
 
 </head>
@@ -89,11 +86,11 @@
     </header>
      
 
-    <div class="box-main-gif"> 
+    <div class="box-main-gif">
     <div class="bg translate scale">
-        <img class="lazy" id="example1" src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/bg-barbadillo-dentro.jpg?v2" rel:animated_src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/SecuenciaFrames10.gif?v5" width="auto" height="100%" rel:auto_play="0" rel:rubbable="1"/> 
+        <img id="sequence-img" src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-1-min.jpg?v1" width="auto" height="100%" alt="">
     </div>
-   
+
     </div>
 
     <div class="main-gif" id="main">
@@ -120,7 +117,7 @@
 
     <div class="box-indicacion">
         <div class="ctn-box-indicacion">
-            <a href="./barbadillo/" class="btn-regresar">regresar</a>
+            <a href="../" class="btn-regresar">regresar</a>
             <span class="indicacion">Deslizar y detener para leer.</span>
         </div>        
     </div>    
@@ -145,8 +142,6 @@
     
     <!--<script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales/alan-garcia-una-vida-de-portada-ecpm/js/transition.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
-    <script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.5.6/dist/progressbar.js"></script>
     <!--<script src="/especiales-multimedia/barbadillo/js/main.js?v126"></script>-->
 
 
@@ -154,167 +149,88 @@
 
     $(document).ready(function () {
 
-        var gif1 = new SuperGif({
-            gif: document.getElementById('example1'),
-            max_width: $(window).height(),
-            progressbar_height: 0
-            //loop_mode: false
-        });
+        var basePath = "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/";
+        var frameCount = 85;
+        var sequenceImg = document.getElementById('sequence-img');
+        var images = [];
+        var currentFrame = 0;
 
-        gif1.loop_mode = 'once';       
-
-        gif1.load(function () {
-            init();
-        });
-
-        function init() {
-            var h = $("#main").height() - $(window).height();
-            var p = 0.5 * h / gif1.get_length();
-
-            function checkScroll(that) {
-
-                var scroll_top = $(that).scrollTop();
-
-                var i = Math.floor(scroll_top / p);
-                gif1.move_to(i % gif1.get_length());
-            }
-
-            $(window).scroll(function () {
-                checkScroll(this);
-            });
-            checkScroll(window);
+        function frameUrl(i) {
+            var name = i <= 40 ? ('Capa-' + i + '-min.jpg') : ('Capa-' + i + '.jpg');
+            return basePath + name + '?v1';
         }
-    });    
-    
-    // Detener el loop después de 5 segundos
-    /*setTimeout(function() {
-        SuperGif.pause();
-    }, 2000);*/
-    
-    var lazyLoadInstance = new LazyLoad({
-        elements_selector: ".lazy"
+
+        // Precarga las 85 imágenes en paralelo; el scrubber no espera a que terminen,
+        // cada frame simplemente aparece en cuanto su descarga llega.
+        for (var i = 1; i <= frameCount; i++) {
+            var img = new Image();
+            img.src = frameUrl(i);
+            images.push(img);
+        }
+
+        function showFrame(index) {
+            if (index === currentFrame) return;
+            currentFrame = index;
+            sequenceImg.src = images[index].src;
+        }
+
+        // Frames que llevan texto superpuesto: necesitan más scroll para dar tiempo a leerlos
+        // antes de pasar al siguiente. El número es "cuántos frames normales" dura la pausa.
+        var textHoldWeight = {
+            50: 10, // "El penal tiene dos biohuertos..."
+            69: 10, // "Con las modificaciones realizadas al penal en el 2017..."
+            77: 9,  // "Celdas: tienen entre 15 y 16 metros cuadrados..."
+            78: 4,  // "Alberto Fujimori"
+            79: 4,  // "Pedro Castillo"
+            80: 5,  // "Posible celda de Alejandro Toledo"
+            81: 3,  // "También cuenta con:"
+            82: 4,  // "Enfermería"
+            83: 4,  // "Taller"
+            84: 5,  // "Oficinas administrativas"
+            85: 3
+        };
+
+        var weights = [];
+        var cumulative = [0];
+        for (var f = 1; f <= frameCount; f++) {
+            weights.push(textHoldWeight[f] || 1);
+            cumulative.push(cumulative[f - 1] + weights[f - 1]);
+        }
+        var totalWeight = cumulative[frameCount];
+
+        var vh = $(window).height();
+        var unitPx = (vh * 3) / frameCount;
+        var scrollRange = unitPx * totalWeight;
+        $("#main").css('height', (scrollRange + vh) + 'px');
+
+        var ticking = false;
+
+        function frameForScroll(scrollTop) {
+            var unit = scrollTop / unitPx;
+            var index = 0;
+            for (var i = 0; i < frameCount; i++) {
+                if (unit >= cumulative[i]) index = i;
+                else break;
+            }
+            return Math.min(frameCount - 1, Math.max(0, index));
+        }
+
+        function update() {
+            var scrollTop = $(window).scrollTop();
+            showFrame(frameForScroll(scrollTop));
+            ticking = false;
+        }
+
+        $(window).on('scroll', function () {
+            if (!ticking) {
+                requestAnimationFrame(update);
+                ticking = true;
+            }
+        });
+        update();
     });
 
    </script>
-
-<script>
-	// define images
-	/*var images = [
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-1.jpg?v2",
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-2.jpg?v2",
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-3.jpg?v2",
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-4.jpg?v2",
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-5.jpg?v2",
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-6.jpg?v2",
-		"https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-7.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-8.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-9.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-10.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-11.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-12.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-13.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-14.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-15.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-16.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-17.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-18.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-19.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-20.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-21.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-22.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-23.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-24.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-25.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-26.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-27.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-28.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-29.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-30.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-31.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-32.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-33.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-34.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-35.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-36.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-37.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-38.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-39.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-40.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-41.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-42.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-43.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-44.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-45.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-46.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-47.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-48.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-49.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-50.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-51.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-52.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-53.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-54.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-55.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-56.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-57.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-58.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-59.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-60.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-61.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-62.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-63.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-64.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-65.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-66.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-67.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-68.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-69.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-70.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-71.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-72.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-73.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-74.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-75.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-76.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-77.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-78.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-79.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-80.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-81.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-82.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-83.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-84.jpg?v2",
-        "https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/secuencia/Capa-85.jpg?v2"
-	];*/
-
-	// TweenMax can tween any property of any object. We use this object to cycle through the array
-	//var obj = {curImg: 0};
-
-	// create tween
-	/*var tween = TweenMax.to(obj, 0.5,
-		{
-			curImg: images.length - 1,	// animate propery curImg to number of images
-			roundProps: "curImg",				// only integers so it can be used as an array index
-			repeat: 0,									// repeat 3 times
-			immediateRender: true,			// load first image automatically
-			ease: Linear.easeNone,			// show every image the same ammount of time
-			onUpdate: function () {
-			  $("#myimg").attr("src", images[obj.curImg]); // set the image source
-			}
-		}
-	);*/
-
-	// init controller
-	//var controller = new ScrollMagic.Controller();
-
-	// build scene
-	/*var scene = new ScrollMagic.Scene({triggerElement: "#trigger", duration: 40000,  triggerHook: 0.2})
-					.setTween(tween)
-					.addIndicators() // add indicators (requires plugin)
-					.addTo(controller);*/
-
-	
-</script>
 
 
 </body>
