@@ -65,6 +65,12 @@
     <link rel="canonical" href="https://especiales.elcomercio.pe/?q=especiales-multimedia/barbadillo/index.html"/>
 
 	<style>
+        /* Ocultar anuncios y elementos no deseados */       
+        .tp-backdrop.tp-active,
+        .content_gpt_top_ads, 
+        .sticky-top, 
+        .nav-d__menu.active,
+        #gpt_cover,
         .content_gpt_top_ads,
         .skin-template-model0.ads_pushed,
         .skin-template-model0,
@@ -78,7 +84,7 @@
         #browsi_wrapper_3_ai_1_rc_0,
         #browsi_wrapper_4_ai_1_rc_0,
         #browsi_wrapper_5_ai_1_rc_0,
-        #browsi_wrapper_6_ai_1_rc_0,
+         #browsi_wrapper_6_ai_1_rc_0,
         #browsi_wrapper_7_ai_1_rc_0,
         #browsi_wrapper_8_ai_1_rc_0,
         #browsi_wrapper_9_ai_1_rc_0,
@@ -86,31 +92,55 @@
         .fs-sticky-footer,
         .orp-player-wrapper,
         #clever-45754-sticky-footer,
-        #clever-45754-1475206-sticky-footer-shadow,
         #elcomercio_zocalo{
-            display: none !important;
-            height: 0 !important;
+                display: none !important;
+                height: 0 !important;
         }   
-        #header-container,
         .nav-d__main-scroll.scrolled{
-            z-index: 99999999;
+            z-index: 9999;
+        }
+#header-container,
+        .nav-d__main-scroll.scrolled{
+            /*z-index: 99999999;*/
         }
         #nav-wm-container{
             position: relative;
-            z-index: 99999999;
+            /*z-index: 99999999;*/
         }
-        .skin-template-model0 {
+.skin-template-model0 {
 		    top: 100px !important;
 		    z-index: -1 !important;
 		}
-		.skin-template-model0 {
-		    top: 100px !important;
-		    z-index: -1 !important;
-		}
-		.content_gpt_top_ads{
-            display: none !important;
-            height: 0 !important;
-        }  
+        body{
+            overflow-y: scroll !important;
+        }
+        .content-layout-container {
+            background-color: transparent !important;
+        }
+        .tp-modal-open{
+            overflow: auto !important;
+        }
+
+.iframe-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            border: 0;
+            height: 100%;
+            width: 100%;
+        }
+        
+        @media only screen and (max-width: 640px){
+            
+            .iframe-container{
+                height: 100vh;
+            }
+            
+        }
 	</style>
 
 </head>
@@ -158,7 +188,7 @@
                     <h1>La cárcel de los <span>expresidentes</span></h1>
                     <p>                        
                         <span class="cyan">Martín Vizcarra</span> 
-                        <span class="negrita">fue el quinto expresidente peruano recluido en Barbadillo,</span> un penal que se abrió con el fin de acoger de manera temporal a Alberto Fujimori, pero que luego se convirtió en la prisión de otros exmandatarios como Pedro Castillo, Alejandro Toledo y Ollanta Humala.</p>
+                        <span class="negrita">se suma a la lista de expresidentes peruanos condenados a prisión.</span> Debería ser trasladado en las próximas horas al penal de Barbadillo, en Ate.</p>
                 </div>                
             </div> 
         </div>
@@ -249,27 +279,45 @@
                 </a>
             </div>   
         </div>  
+
+		<div class="separador"></div>
+		<h4>
+			<span>Pedro Castillo: </span>
+			condenado por el golpe de Estado
+		</h4>
+		
+		<div class="box-presidente">	
+            <img src="https://nuevasnarrativasec.github.io/barbadillo/img/castillo-2025.jpg?v2" alt="Pedro Castillo" width="100%">
+            <!--<span class="separador-ex"></span>-->     
+            <div class="box-video" id="video-castillo">
+                <!--<script src="https://cdn.jwplayer.com/players/Qm16add0-sfGpVx0W.js"></script>-->
+                <div style="position:relative; overflow:hidden; padding-bottom:177.78%"><iframe  class="video-jw" src="https://cdn.jwplayer.com/players/lxCBE2YT-sfGpVx0W.html" width="100%" height="100%" frameborder="0" scrolling="auto" title="Especial Barbadillo: Pedro Castillo" style="position:absolute;" allowfullscreen></iframe></div>
+            </div>
+            <p>
+				Pedro Castillo fue el tercer expresidente encarcelado. El 27 de noviembre de 2025, fue condenado a 11 años, 5 meses y 15 días de prisión por el golpe de Estado que perpetró el 7 de diciembre del 2022.
+            </p>
+			<p>
+				Inicialmente, el día del golpe fue detenido por la Policía poco después de que fuera destituido. Primero fue recluido en la carceleta de la Diroes, pero una semana después se dictó 18 meses de prisión preventiva para él por la investigación de este caso. Con ello, fue trasladado a Barbadillo, donde permaneció incluso tras una orden de 36 meses de prisión preventiva por una de las investigaciones que se le sigue por el delito de organización criminal.
+			</p>
+		</div>
         
         <div class="separador"></div>
         <h4>
             <span>Martín Vizcarra: </span> el último recluso
-        </h4>
-        <span class="asterisco">*Preso por prisión preventiva</span>
+        </h4>        
 
         <div class="box-presidente">
             <img src="https://nuevasnarrativasec.github.io/barbadillo/img/vizcarra-2025.jpg" alt="Martín Vizcarra" width="100%">         
-            <div class="box-video bov-video-vizcarra" id="video-vizcarra">
+            <div class="box-video bov-video-vizcarra" id="video-vizcarra" style="margin: 0 auto 10px;">
                 <video src="https://nuevasnarrativasec.github.io/videos-discurso-dina-2025/video-vizcarra.mp4" width="100%" poster="https://nuevasnarrativasec.github.io/barbadillo/img/cover-vizcarra.jpg" controls></video>               
             </div>  
+			<span class="asterisco">Última actualización: Agosto, 2025</span>
             <p>
-                El viernes 22 de agosto, Vizcarra fue trasladado al penal Ancón II, por "medidas de seguridad penitenciaria", según informó el Inpe.
-            </p>
-            <p>
-                Antes de ello, había sido recluido en el penal Barbadillo, convirtiéndose en el quinto expresidente peruano en ingresar a dicho establecimiento para cumplir una orden judicial. El juez Jorge Chávez Tamariz le impuso cinco meses de prisión preventiva.
-            </p>
-            <p>
-                Según la tesis fiscal, habría recibido sobornos por más de S/2.3 millones de las empresas Obrainsa e ICCGSA durante su gestión como gobernador de Moquegua (2011-2014), a cambio de favorecer la adjudicación de los proyectos Lomas de Ilo y el Hospital Regional de Moquegua. En noviembre de 2024, el gerente de Obrainsa, Elard Paul Tejeda, declaró ante el Poder Judicial que pagó a Vizcarra S/1 millón en sobornos.
-            </p>           
+                Martín Vizcarra fue condenado a 14 años de prisión. El Poder Judicial lo encontró culpable de recibir S/2.3 millones en coimas de empresas constructoras para los proyectos Lomas de Ilo y Hospital de Moquegua. El juicio contra el también exgobernador de Moquegua inició en octubre del 2024.
+            </p> 
+			<p>
+				Previo a ello, en agosto, Vizcarra fue recluido en el penal de Barbadillo al recibir cinco meses de prisión preventiva por el mismo caso. No obstante, días después fue trasladado al penal Ancón II por "medidas de seguridad penitenciaria", donde permaneció por cinco días. Luego regresó nuevamente a Barbadillo, donde tras haber cumplido tres semanas de prisión preventiva fue puesto en libertad. La decisión fue dada por un tribunal de apelaciones, que anuló la medida.
+			</p>
         </div>
 
         <div class="separador"></div>
@@ -294,9 +342,7 @@
 
         <div class="separador"></div>
         <h4><span>Alberto Fujimori:</span> el primer recluso</h4>
-        <span class="asterisco">*Falleció en setiembre de 2024. Fue excarcelado en diciembre de 2023.</span>
-        
-
+        <span class="asterisco">*Falleció en setiembre de 2024. Fue excarcelado en diciembre de 2023.</span>      
 
         <div class="box-presidente box-horizontal">  
             <img src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales-multimedia/barbadillo/img/fujimori-color.png" alt="Alberto Fujimori" width="100%">  
@@ -388,19 +434,6 @@
         <h4>Los otros <span>expresidentes</span></h4>
 
         <div class="main-box-ex">
-            <div class="box-ex">
-                <h5>Pedro Castillo: <span>doble prisión preventiva</span></h5>
-				<span class="asterisco">*Preso por prisión preventiva</span>
-				
-                <img src="https://nuevasnarrativasec.github.io/barbadillo/img/castillo-2025.jpg?v2" alt="Pedro Castillo" width="100%">
-                <!--<span class="separador-ex"></span>-->     
-                <div class="box-video" id="video-castillo">
-                    <!--<script src="https://cdn.jwplayer.com/players/Qm16add0-sfGpVx0W.js"></script>-->
-                    <div style="position:relative; overflow:hidden; padding-bottom:177.78%"><iframe  class="video-jw" src="https://cdn.jwplayer.com/players/lxCBE2YT-sfGpVx0W.html" width="100%" height="100%" frameborder="0" scrolling="auto" title="Especial Barbadillo: Pedro Castillo" style="position:absolute;" allowfullscreen></iframe></div>
-                </div>
-                <p>Pedro Castillo fue el tercer expresidente encarcelado. El 7 de diciembre del 2022 fue detenido por la policía poco después de que fuera destituido por su golpe de Estado. Primero fue recluido en la carceleta de la Diroes, pero una semana después se dictó 18 meses de prisión preventiva para él por la investigación del caso, por lo que fue trasladado a Barbadillo. Además, en marzo se ordenó 36 meses de cárcel preventiva por una de las investigaciones que se le sigue por el delito de organización criminal.
-                </p>
-            </div>
             <div class="box-ex" style="margin-bottom: 0; padding-bottom: 30px;">    
                 <h5>Ollanta Humala: <span>dos veces recluido</span></h5>    
                 <span class="asterisco">*Preso por condena</span>        
